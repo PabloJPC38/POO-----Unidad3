@@ -14,6 +14,10 @@ class Lista:
         self.__indice = 0
         self.__tope = 0
 
+    def getTope(self):
+        
+        return self.__tope
+    
     def __iter__(self):
 
         self.__actual = self.__comienzo
@@ -36,7 +40,12 @@ class Lista:
         self.__comienzo = nodo
         self.__tope += 1
         
+        
     def insertarElemento(self, posicion, elemento):
+        
+        if posicion < 0 or posicion > self.__tope:
+            
+            raise ValueError("Posición inválida")
         
         if posicion == 0:
             
@@ -55,15 +64,22 @@ class Lista:
                 nodo_anterior = nodo_actual
                 nodo_actual = nodo_actual.getSiguiente()
                 index += 1
+                if nodo_actual is None:
+                    
+                    raise ValueError("Posición inválida")
+
                 nodo = Nodo(elemento)
                 nodo.setSiguiente(nodo_actual)
                 nodo_anterior.setSiguiente(nodo)
+                
         
         self.__tope += 1
 
-        
+
+    
     def mostrarElemento(self, posicion):
         
+        n = None
         band = True
         nodo_anterior = None
         nodo_actual = self.__comienzo
@@ -75,16 +91,20 @@ class Lista:
                 
                 band = False
                 print(nodo_actual)
+                n = nodo_actual.getDato()
+                
             
             else:    
                 
                 nodo_anterior = nodo_actual
                 nodo_actual = nodo_actual.getSiguiente()
                 index += 1
-
+        
+        return n
     
     def modificarPrecio(self, patente):
         
+        importe_venta = 0.0
         band = True
         nodo_anterior = None
         nodo_actual = self.__comienzo
@@ -100,6 +120,7 @@ class Lista:
                     nodo_actual.getDato().setPrecio(float(input("Ingrese precio base nuevo:")))
                     print(f"Importe de venta {nodo_actual.getDato().importeVenta()}")
                     band = False
+                    importe_venta = nodo_actual.getDato().importeVenta()
             
             else:    
                 
@@ -107,6 +128,7 @@ class Lista:
                 nodo_actual = nodo_actual.getSiguiente()
                 index += 1
         
+        return importe_venta
     
     def masEconomico(self):
         

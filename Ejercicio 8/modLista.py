@@ -1,10 +1,11 @@
 from modNodo import Nodo
-from modInterfaz import Interfaz
+from modInterfaz import Interfaz, ITesorero, IDirector
 from zope.interface import implementer
 from modPersonal import Personal, Docente, Docente_Investigador, Investigador, Personal_Apoyo
 import json
 
-
+@implementer(IDirector)
+@implementer(ITesorero)
 @implementer(Interfaz)
 class Lista:
 
@@ -30,6 +31,142 @@ class Lista:
             self.__actual = self.__actual.getSiguiente()
             return dato
     
+    def modificar_basico(self, dni, nuevo_basico):
+        
+        band = True
+        nodo_anterior = None
+        nodo_actual = self.__comienzo
+        index = 0
+            
+        while band and index < self.__tope and nodo_actual is not None:
+            
+            if dni in nodo_actual.getDato().getCuil():
+                
+                nodo_actual.getDato().setSueldo(nuevo_basico)
+                band = False
+            
+            else:
+                
+                nodo_anterior = nodo_actual
+                nodo_actual = nodo_actual.getSiguiente()
+                index += 1
+    
+    def modificar_porcentaje_por_cargo(self, dni, nuevo_porcentaje):
+    
+        band = True
+        nodo_anterior = None
+        nodo_actual = self.__comienzo
+        index = 0
+            
+        while band and index < self.__tope and nodo_actual is not None:
+            
+            if dni in nodo_actual.getDato().getCuil():
+                
+                nodo_actual.getDato().setPorcentaje(nuevo_porcentaje)
+                nodo_actual.getDato().setSueldo(nodo_actual.getDato().calcularSueldo())
+                band = False
+            
+            else:
+                
+                nodo_anterior = nodo_actual
+                nodo_actual = nodo_actual.getSiguiente()
+                index += 1
+
+    def modificar_porcentaje_por_categoria(self, dni, nuevo_porcentaje):
+    
+        band = True
+        nodo_anterior = None
+        nodo_actual = self.__comienzo
+        index = 0
+            
+        while band and index < self.__tope and nodo_actual is not None:
+            
+            if dni in nodo_actual.getDato().getCuil():
+                
+                nodo_actual.getDato().setPorcentaje(nuevo_porcentaje)
+                nodo_actual.getDato().setSueldo(nodo_actual.getDato().calcularSueldo())
+                band = False
+            
+            else:
+                
+                nodo_anterior = nodo_actual
+                nodo_actual = nodo_actual.getSiguiente()
+                index += 1
+
+    def modificar_importe_extra(self, dni, nuevo_importe_extra):
+    
+        band = True
+        nodo_anterior = None
+        nodo_actual = self.__comienzo
+        index = 0
+            
+        while band and index < self.__tope and nodo_actual is not None:
+            
+            
+            if isinstance(nodo_actual.getDato(), Docente_Investigador):
+            
+                if dni in nodo_actual.getDato().getCuil():
+                
+                    nodo_actual.getDato().setImporte(nuevo_importe_extra)
+                    band = False
+            
+            else:
+                
+                nodo_anterior = nodo_actual
+                nodo_actual = nodo_actual.getSiguiente()
+                index += 1
+    
+    def gastos_sueldos_por_empleados(self,dni):
+        
+        band = True
+        nodo_anterior = None
+        nodo_actual = self.__comienzo
+        index = 0
+            
+        while band and index < self.__tope and nodo_actual is not None:
+            
+            if dni in nodo_actual.getDato().getCuil():
+                
+                print(f"Sueldo:{nodo_actual.getDato().calcularSueldo()}")
+                band = False
+                
+            else:
+                
+                nodo_anterior = nodo_actual
+                nodo_actual = nodo_actual.getSiguiente()
+                index += 1
+    
+    @staticmethod
+    def validadarUsuario():
+        
+        user, password, band = "", "", True
+        
+        user = input("Ingrese usuario:")
+        
+        while user not in ["uTesorero" ,"uDirector"]:
+            
+            print("Usuario no válido!!")
+            user = input("Ingrese usuario:")
+        
+        password = input("Ingrese contraseña:")
+        
+        while band:
+            
+            if user == "uTesorero" and password == "ag@74ck":
+                
+                band = False
+            
+            elif user == "uDirector" and password == "ufC77#!1":
+                
+                band = False
+            
+            else:
+                
+                print("Contraseña incorrecta!!")
+                password = input("Ingrese contraseña:")
+        
+        return user
+
     @staticmethod
     
     def crearAgente():
@@ -99,9 +236,6 @@ class Lista:
         
     def insertarElemento(self, posicion, elemento):
         
-        if not 0 <= posicion <= self.__tope:
-            raise IndexError("Índice de posición fuera de rango")
-        
         if posicion == 0:
             
             nodo = Nodo(elemento)
@@ -127,9 +261,6 @@ class Lista:
 
         
     def mostrarElemento(self, posicion):
-        
-        if not 0 <= posicion < self.__tope:
-            raise IndexError("Índice de posición fuera de rango")
         
         band = True
         nodo_anterior = None
@@ -422,9 +553,6 @@ class Lista:
             
             json.dump(lista_codificada, archivo, indent=4)
 
-    
-    
-    
     def __repr__(self) -> str:
         
         return f"actual:{self.__actual} - comienzo:{self.__comienzo}"

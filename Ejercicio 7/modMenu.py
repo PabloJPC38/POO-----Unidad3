@@ -9,6 +9,7 @@ class Menu:
         
         lista = Lista()
         lista.leerArchivoJSON(path.dirname(__file__) + "/personal.json")
+        lista.mostrarElementos()
         
         print("1 - Insertar un agente en la colección en una posición determinada")
         print("2 - Agregar un agente a la colección")
@@ -54,7 +55,7 @@ class Menu:
             
             elif op == "8":
                 
-                lista.guardarListaEnJSON(path.dirname(__file__) + "/personal.json")
+                lista.guardarListaEnJSON("/Ejercicio 7/personal2.json")
 
             
             print("1 - Insertar un agente en la colección en una posición determinada")

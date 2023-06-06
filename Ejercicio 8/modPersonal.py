@@ -29,6 +29,10 @@ class Personal:
         
         return self.__nbre
     
+    def setSueldo(self, sueldo):
+        
+        self.__sueldo = sueldo
+    
     def getSueldo(self):
         
         return self.__sueldo
@@ -54,6 +58,10 @@ class Docente(Personal):
         self.__carrera = carrera
         self.__cargo = cargo
         self.__catedra = catedra
+        self.__porcent1 = 0.1
+        self.__porcent2 = 0.2
+        self.__porcent3 = 0.5
+        
         
     def calcularSueldo(self):
         
@@ -61,18 +69,26 @@ class Docente(Personal):
         
         if self.__cargo == "simple":
         
-            sueldo = super().calcularSueldo() + (self.__sueldo * 0.1)
+            sueldo = super().calcularSueldo() + (self.getSueldo() * self.__porcent1)
 
         elif self.__cargo == "semiexclusivo":
             
-            sueldo = super().calcularSueldo() + (self.__sueldo * 0.2)
+            sueldo = super().calcularSueldo() + (self.getSueldo() * self.__porcent2)
             
         elif self.__cargo == "exclusivo":
             
-            sueldo = super().calcularSueldo() + (self.__sueldo * 0.5)
+            sueldo = super().calcularSueldo() + (self.getSueldo() * self.__porcent3)
         
         return sueldo
+    
+    def setPorcentaje(self, porcentaje):
         
+        self.__porcent1 = porcentaje / 100
+        
+        self.__porcent1 = (porcentaje + 2) / 100
+        
+        self.__porcent1 = (porcentaje + 5) / 100
+    
     def getCarrera(self):
         
         return self.__carrera
@@ -118,6 +134,17 @@ class Personal_Apoyo(Personal):
         
         Personal.__init__(self,cuil, ape, nbre, sueldo, antig)
         self.__categoria = categoria
+        self.__porcent1 = 0.1
+        self.__porcent1 = 0.2
+        self.__porcent1 = 0.3
+    
+    def setPorcentaje(self, porcentaje):
+        
+        self.__porcent1 = porcentaje / 100
+        
+        self.__porcent1 = (porcentaje + 2) / 100
+        
+        self.__porcent1 = (porcentaje + 3) / 100
     
     def calcularSueldo(self):
         
@@ -125,15 +152,15 @@ class Personal_Apoyo(Personal):
         
         if self.__categoria in range(1,11):
         
-            sueldo = super().calcularSueldo() + (self.__sueldo * 0.1)
+            sueldo = super().calcularSueldo() + (self.getSueldo() * 0.1)
         
         elif self.__categoria in range(11,21):
         
-            sueldo = super().calcularSueldo() + (self.__sueldo * 0.2)
+            sueldo = super().calcularSueldo() + (self.getSueldo() * 0.2)
         
         elif self.__categoria in range(21,23):
         
-            sueldo = super().calcularSueldo() + (self.__sueldo * 0.3)
+            sueldo = super().calcularSueldo() + (self.getSueldo() * 0.3)
 
         return sueldo
     
@@ -162,6 +189,10 @@ class Docente_Investigador(Docente, Investigador):
     def getCategoria(self):
         
         return self.__categoria
+    
+    def setImporte(self, importe):
+        
+        self.__importe = importe
     
     def getImporte(self):
         
